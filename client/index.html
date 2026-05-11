@@ -50,8 +50,11 @@
         <!-- Dashboard Screen -->
         <div id="dashboard-screen" class="view hidden">
             
+            <!-- Sidebar Overlay -->
+            <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
             <!-- Sidebar -->
-            <aside class="sidebar">
+            <aside class="sidebar" id="sidebar">
                 <div class="sidebar-header">
                     <div class="logo-icon small"><i data-lucide="guitar"></i></div>
                     <h2>ChordBook</h2>
@@ -86,9 +89,14 @@
             <!-- Main Content Area -->
             <main class="main-content">
                 <header class="main-header">
-                    <div>
-                        <h1 id="page-title">My Library</h1>
-                        <p id="page-subtitle" class="subtitle"><i data-lucide="music"></i> You have <span id="song-count">0</span> pieces masterfully crafted</p>
+                    <div class="header-left">
+                        <button id="menu-toggle" class="menu-toggle-btn">
+                            <i data-lucide="menu"></i>
+                        </button>
+                        <div>
+                            <h1 id="page-title">My Library</h1>
+                            <p id="page-subtitle" class="subtitle"><i data-lucide="music"></i> You have <span id="song-count">0</span> pieces masterfully crafted</p>
+                        </div>
                     </div>
                     <button id="open-compose-btn" class="primary-btn glass-btn">
                         <i data-lucide="plus"></i> Compose

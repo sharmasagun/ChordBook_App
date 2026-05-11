@@ -48,6 +48,7 @@ function init() {
     setupTabListeners();
     setupModalListeners();
     setupThemeToggle();
+    setupSidebarToggle();
     renderChordHelper();
 
     if (state.token) {
@@ -100,6 +101,31 @@ function showContent(tabId) {
 
     const titles = { library: 'My Library', discover: 'Discover', favorites: 'Favorites' };
     document.getElementById('page-title').innerText = titles[tabId];
+}
+
+// --- Sidebar Toggle ---
+function setupSidebarToggle() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const toggleBtn = document.getElementById('menu-toggle');
+
+    const toggleSidebar = () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('hidden');
+    };
+
+    const closeSidebar = () => {
+        sidebar.classList.remove('open');
+        overlay.classList.add('hidden');
+    };
+
+    toggleBtn.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // Close sidebar when clicking a nav button
+    document.querySelectorAll('.sidebar .nav-btn').forEach(btn => {
+        btn.addEventListener('click', closeSidebar);
+    });
 }
 
 // --- Auth Logic ---
