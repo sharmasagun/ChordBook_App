@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChordBook</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <!-- App Container -->
+    <div id="app" class="app-container">
+        
+        <!-- Login Screen -->
+        <div id="login-screen" class="view hidden">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo-icon"><i data-lucide="guitar"></i></div>
+                    <h1>ChordBook</h1>
+                    <p>Your digital chord repository.</p>
+                </div>
+                
+                <div class="tab-buttons">
+                    <button id="tab-login" class="tab-btn active">Sign In</button>
+                    <button id="tab-register" class="tab-btn">Register</button>
+                </div>
+
+                <form id="auth-form" class="auth-form">
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email" required placeholder="guitarhero@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="primary-btn" id="auth-submit-btn">Sign In</button>
+                    <p id="auth-error" class="error-msg hidden"></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard-screen" class="view hidden">
+            
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo-icon small"><i data-lucide="guitar"></i></div>
+                    <h2>ChordBook</h2>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <h3>Menu</h3>
+                        <button class="nav-btn active" data-target="library">
+                            <i data-lucide="layers"></i> My Library
+                        </button>
+                        <button class="nav-btn" data-target="discover">
+                            <i data-lucide="search"></i> Discover
+                        </button>
+                        <button class="nav-btn" data-target="favorites">
+                            <i data-lucide="heart"></i> Favorites
+                        </button>
+                    </div>
+
+                    <div class="nav-section mt-auto">
+                        <button id="theme-toggle" class="nav-btn">
+                            <i data-lucide="sun" id="theme-icon"></i>
+                            <span id="theme-text">Light Mode</span>
+                        </button>
+                        <button id="logout-btn" class="nav-btn text-danger">
+                            <i data-lucide="log-out"></i> Sign Out
+                        </button>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <header class="main-header">
+                    <div>
+                        <h1 id="page-title">My Library</h1>
+                        <p id="page-subtitle" class="subtitle"><i data-lucide="music"></i> You have <span id="song-count">0</span> pieces masterfully crafted</p>
+                    </div>
+                    <button id="open-compose-btn" class="primary-btn glass-btn">
+                        <i data-lucide="plus"></i> Compose
+                    </button>
+                </header>
+
+                <div id="content-library" class="content-view">
+                    <div class="search-bar">
+                        <i data-lucide="search"></i>
+                        <input type="text" placeholder="Search by title, artist, or lyrics...">
+                    </div>
+                    
+                    <div id="song-grid" class="song-grid">
+                    </div>
+                </div>
+
+                <div id="content-discover" class="content-view hidden">
+                    <div class="empty-state">
+                        <div class="empty-icon"><i data-lucide="compass"></i></div>
+                        <h2>Discover Community</h2>
+                        <p>Coming soon! Explore chords created by other musicians.</p>
+                    </div>
+                </div>
+
+                <div id="content-favorites" class="content-view hidden">
+                    <div class="empty-state">
+                        <div class="empty-icon"><i data-lucide="heart"></i></div>
+                        <h2>Your Favorites</h2>
+                        <p>Songs you've starred will appear here.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Compose Modal -->
+        <div id="compose-modal" class="modal hidden">
+            <div class="modal-backdrop" id="compose-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="header-title">
+                        <div class="icon-wrapper"><i data-lucide="guitar"></i></div>
+                        <div>
+                            <h2 id="compose-modal-title">Compose Masterpiece</h2>
+                            <p>Transcribe your next hit song.</p>
+                        </div>
+                    </div>
+                    <button class="close-btn" id="close-compose-btn"><i data-lucide="x"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="compose-form">
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label>Song Title</label>
+                                <input type="text" id="compose-title" required placeholder="e.g. Stairway to Heaven">
+                            </div>
+                            <div class="input-group">
+                                <label>Artist</label>
+                                <input type="text" id="compose-artist" placeholder="e.g. Led Zeppelin">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="label-row">
+                                <label>Chords & Lyrics</label>
+                                <span class="hint">Use [C] notation</span>
+                            </div>
+                            
+                            <!-- Chord Helper -->
+                            <div class="chord-helper" id="chord-helper">
+                                
+                            </div>
+
+                            <textarea id="compose-content" required rows="8" placeholder="[Am] There's a lady who's [G] sure&#10;All that glitters is [F] gold..."></textarea>
+                        </div>
+                        <button type="submit" class="primary-btn full-width">
+                            <i data-lucide="plus"></i> Add to Library
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        
+        <div id="practice-modal" class="modal hidden">
+            <div class="modal-backdrop" id="practice-backdrop"></div>
+            <div class="modal-content full-screen">
+                <div class="modal-header">
+                    <div class="header-title">
+                        <div class="icon-wrapper gradient"><i data-lucide="play-circle"></i></div>
+                        <div>
+                            <h2 id="practice-title">Song Title</h2>
+                            <p class="subtitle"><i data-lucide="mic-2"></i> <span id="practice-artist">Artist</span></p>
+                        </div>
+                    </div>
+                    <button class="close-btn" id="close-practice-btn"><i data-lucide="x"></i></button>
+                </div>
+                
+                <div class="modal-body scroller" id="practice-scroll-container">
+                    <div class="practice-viewer" id="practice-viewer">
+                        
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="auto-scroll-btn" class="control-btn">
+                        <i data-lucide="play" id="scroll-icon"></i> Auto-Scroll
+                    </button>
+                    
+                    <div class="transpose-control">
+                        <button id="transpose-down"><i data-lucide="minus"></i></button>
+                        <div class="transpose-display">
+                            <span>Transpose</span>
+                            <strong id="transpose-val">0</strong>
+                        </div>
+                        <button id="transpose-up"><i data-lucide="plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <template id="song-card-template">
+        <div class="song-card">
+            <div class="card-actions">
+                <button class="edit-btn"><i data-lucide="edit-3"></i></button>
+                <button class="delete-btn"><i data-lucide="trash-2"></i></button>
+            </div>
+            <div class="card-info">
+                <h3 class="card-title"></h3>
+                <p class="card-artist"><i data-lucide="mic-2"></i> <span></span></p>
+            </div>
+            <div class="card-preview">
+                <pre></pre>
+                <div class="fade-out"></div>
+            </div>
+            <div class="card-footer">
+                <div class="icon-stack">
+                    <div class="stack-icon blue"><i data-lucide="music"></i></div>
+                    <div class="stack-icon purple"><i data-lucide="play-circle"></i></div>
+                </div>
+                <button class="play-btn">Play <i data-lucide="chevron-right"></i></button>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
